@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up / Login</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #1e1e1e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: #fff;
+            padding: 30px;
+            text-align: center;
+            border-radius: 12px;
+            box-shadow: 0px 4px 15px rgba(255, 165, 0, 0.3);
+            width: 350px;
+            position: relative;
+        }
+
+        .logo {
+            width: 80px;
+            margin-bottom: 15px;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+            color: #ff8c00;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 18px;
+            color: #ff8c00;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            border-bottom: 2px solid #ff8c00;
+            font-weight: 600;
+        }
+
+        input {
+            width: 90%;
+            padding: 12px;
+            border: 2px solid #ff8c00;
+            border-radius: 6px;
+            font-size: 16px;
+            outline: none;
+            margin-bottom: 12px;
+            background: #f9f9f9;
+        }
+
+        input:focus {
+            border-color: #ff6600;
+        }
+
+        button {
+            background-color: #ff8c00;
+            color: #fff;
+            border: none;
+            padding: 12px 15px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 6px;
+            width: 100%;
+            transition: background 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        button:hover {
+            background-color: #cc7000;
+        }
+
+        .form-section {
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        #signOutButton {
+            background-color: #ff4444;
+        }
+
+        #signOutButton:hover {
+            background-color: #cc3333;
+        }
+
+        #verifyButton {
+            background-color: #ff8c00;
+            margin-top: 10px;
+        }
+
+        #verifyButton:hover {
+            background-color: #cc7000;
+        }
+
+        .toggle-link {
+            color: #ff8c00;
+            cursor: pointer;
+            text-decoration: underline;
+            font-size: 14px;
+        }
+
+        .signed-in-message {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="logog.png" alt="Logo" class="logo">
+        <h2 id="title">Sign Up / Login</h2>
+        <div class="tabs">
+            <div class="tab active" data-target="signup">Sign Up</div>
+            <div class="tab" data-target="login">Login</div>
+        </div>
+
+        <div id="signup" class="form-section active">
+            <form id="signupForm">
+                <input type="text" id="signupName" name="name" required placeholder="Enter your name">
+                <input type="email" id="signupEmail" name="email" required placeholder="Enter your email">
+                <input type="password" id="signupPassword" name="password" required placeholder="Enter your password">
+                <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Confirm password">
+                <button type="submit">Sign Up</button>
+            </form>
+            <p>Already have an account? <span class="toggle-link" data-target="login">Login</span></p>
+        </div>
+
+        <div id="login" class="form-section">
+            <form id="loginForm">
+                <input type="email" id="loginEmail" name="email" required placeholder="Enter your email">
+                <input type="password" id="loginPassword" name="password" required placeholder="Enter your password">
+                <button type="submit">Login</button>
+            </form>
+            <p>Don't have an account? <span class="toggle-link" data-target="signup">Sign Up</span></p>
+        </div>
+
+        <div id="signedIn" class="form-section">
+            <div class="signed-in-message">
+                <p id="welcomeMessage">Welcome! You are signed in.</p>
+                <button id="verifyButton" style="display: none;">Verify Email</button>
+                <button id="signOutButton">Sign Out</button>
+            </div>
+        </div>
+
+        <div id="verify" class="form-section">
+            <form id="verifyForm">
+                <input type="email" id="verifyEmail" name="email" required placeholder="Enter your email" disabled>
+                <input type="text" id="code" name="code" placeholder="Enter verification code">
+                <button type="submit">Verify</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const tabs = document.querySelectorAll(".tab");
+        const formSections = document.querySelectorAll(".form-section");
+        const toggleLinks = document.querySelectorAll(".toggle-link");
+        const signupForm = document.getElementById("signupForm");
+        const loginForm = document.getElementById("loginForm");
+        const verifyForm = document.getElementById("verifyForm");
+        const signOutButton = document.getElementById("signOutButton");
+        const verifyButton = document.getElementById("verifyButton");
+        const title = document.getElementById("title");
+        const welcomeMessage = document.getElementById("welcomeMessage");
+        const verifyEmailInput = document.getElementById("verifyEmail");
+
+        let isSignedIn = false;
+        let isEmailVerified = false;
+        let currentEmail = "";
+
+        // Check if already signed in
+        const storedToken = localStorage.getItem("authToken");
+        const storedVerificationStatus = localStorage.getItem("isEmailVerified");
+        if (storedToken) {
+            isSignedIn = true;
+            isEmailVerified = storedVerificationStatus === "true";
+            showSignedInState();
+        }
+
+        // Tab switching
+        tabs.forEach(tab => {
+            tab.addEventListener("click", () => {
+                if (isSignedIn) return;
+                tabs.forEach(t => t.classList.remove("active"));
+                tab.classList.add("active");
+
+                formSections.forEach(section => section.classList.remove("active"));
+                const target = tab.getAttribute("data-target");
+                document.getElementById(target).classList.add("active");
+
+                title.textContent = target === "signup" ? "Sign Up" : "Login";
+            });
+        });
+
+        // Toggle link switching
+        toggleLinks.forEach(link => {
+            link.addEventListener("click", () => {
+                if (isSignedIn) return;
+                const target = link.getAttribute("data-target");
+
+                tabs.forEach(t => t.classList.remove("active"));
+                document.querySelector(`.tab[data-target="${target}"]`).classList.add("active");
+
+                formSections.forEach(section => section.classList.remove("active"));
+                document.getElementById(target).classList.add("active");
+
+                title.textContent = target === "signup" ? "Sign Up" : "Login";
+            });
+        });
+
+        // Sign Up Form Submission
+        signupForm.addEventListener("submit", async function(event) {
+            event.preventDefault();
+            const name = document.getElementById("signupName").value;
+            const email = document.getElementById("signupEmail").value;
+            const password = document.getElementById("signupPassword").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+
+            if (password !== confirmPassword) {
+                alert("Passwords do not match!");
+                return;
+            }
+
+            try {
+                const response = await fetch("http://localhost:3000/signup", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ name, email, password })
+                });
+
+                const data = await response.json();
+                alert(data.message);
+
+                if (response.ok) {
+                    localStorage.setItem("authToken", data.token);
+                    currentEmail = email;
+                    isEmailVerified = data.isEmailVerified || false;
+                    localStorage.setItem("isEmailVerified", isEmailVerified.toString());
+                    showSignedInState();
+                }
+            } catch (error) {
+                alert("Error signing up");
+            }
+        });
+
+        // Login Form Submission
+        loginForm.addEventListener("submit", async function(event) {
+            event.preventDefault();
+            const email = document.getElementById("loginEmail").value;
+            const password = document.getElementById("loginPassword").value;
+
+            try {
+                const response = await fetch("http://localhost:3000/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+                alert(data.message);
+
+                if (response.ok) {
+                    localStorage.setItem("authToken", data.token);
+                    currentEmail = email;
+                    isEmailVerified = data.isEmailVerified || false;
+                    localStorage.setItem("isEmailVerified", isEmailVerified.toString());
+                    showSignedInState();
+                }
+            } catch (error) {
+                alert("Error logging in");
+            }
+        });
+
+        // Verify Button Click
+        verifyButton.addEventListener("click", async function() {
+            formSections.forEach(section => section.classList.remove("active"));
+            document.getElementById("verify").classList.add("active");
+            title.textContent = "Verify Email";
+            verifyEmailInput.value = currentEmail;
+
+            try {
+                const response = await fetch("http://localhost:3000/send-verification", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email: currentEmail })
+                });
+
+                const data = await response.json();
+                alert(data.message);
+            } catch (error) {
+                alert("Error sending verification code");
+            }
+        });
+
+        // Verify Form Submission
+        verifyForm.addEventListener("submit", async function(event) {
+            event.preventDefault();
+            const email = verifyEmailInput.value;
+            const code = document.getElementById("code").value;
+
+            try {
+                const response = await fetch("http://localhost:3000/verify-code", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, code })
+                });
+
+                const data = await response.json();
+                alert(data.message);
+
+                if (response.ok) {
+                    isEmailVerified = true;
+                    localStorage.setItem("isEmailVerified", "true");
+                    showSignedInState();
+                }
+            } catch (error) {
+                alert("Error verifying code");
+            }
+        });
+
+        // Sign Out
+        signOutButton.addEventListener("click", function() {
+            localStorage.removeItem("authToken");
+            localStorage.removeItem("isEmailVerified");
+            resetToInitialState();
+            alert("Successfully signed out!");
+        });
+
+        function showSignedInState() {
+            isSignedIn = true;
+            formSections.forEach(section => section.classList.remove("active"));
+            document.getElementById("signedIn").classList.add("active");
+            tabs.forEach(tab => tab.style.display = "none");
+
+            if (isEmailVerified) {
+                welcomeMessage.textContent = "Welcome! Your email is verified.";
+                verifyButton.style.display = "none";
+                window.location.href = "final.html";
+            } else {
+                welcomeMessage.textContent = "Welcome! Please verify your email.";
+                verifyButton.style.display = "block";
+            }
+        }
+
+        function resetToInitialState() {
+            isSignedIn = false;
+            isEmailVerified = false;
+            currentEmail = "";
+            title.textContent = "Sign Up";
+            formSections.forEach(section => section.classList.remove("active"));
+            document.getElementById("signup").classList.add("active");
+            tabs.forEach(tab => {
+                tab.style.display = "block";
+                tab.classList.remove("active");
+            });
+            document.querySelector('.tab[data-target="signup"]').classList.add("active");
+            signupForm.reset();
+            loginForm.reset();
+            verifyForm.reset();
+        }
+    </script>
+</body>
+</html>
