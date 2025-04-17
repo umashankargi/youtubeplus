@@ -4,8 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up / Login</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <!-- Poppins Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+        :root {
+            --primary-color: #ff8c00;
+            --hover-color: #cc7000;
+            --signout-color: #ff4444;
+            --signout-hover: #cc3333;
+        }
 
         body {
             font-family: 'Poppins', sans-serif;
@@ -13,18 +22,19 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
         }
 
         .container {
-            background: #fff;
-            padding: 30px;
-            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .card {
+            border: none;
             border-radius: 12px;
             box-shadow: 0px 4px 15px rgba(255, 165, 0, 0.3);
-            width: 350px;
-            position: relative;
         }
 
         .logo {
@@ -33,92 +43,81 @@
         }
 
         h2 {
+            color: var(--primary-color);
             margin-bottom: 15px;
-            color: #ff8c00;
         }
 
-        .tabs {
-            display: flex;
-            justify-content: space-around;
+        .nav-tabs {
+            border-bottom: 2px solid var(--primary-color);
             margin-bottom: 20px;
         }
 
-        .tab {
-            padding: 10px 20px;
-            cursor: pointer;
+        .nav-link {
+            color: var(--primary-color);
             font-size: 18px;
-            color: #ff8c00;
-            border-bottom: 2px solid transparent;
+            padding: 10px 20px;
             transition: all 0.3s ease;
         }
 
-        .tab.active {
-            border-bottom: 2px solid #ff8c00;
+        .nav-link.active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            background: none;
             font-weight: 600;
         }
 
-        input {
-            width: 90%;
-            padding: 12px;
-            border: 2px solid #ff8c00;
+        .form-control {
+            border: 2px solid var(--primary-color);
             border-radius: 6px;
             font-size: 16px;
-            outline: none;
             margin-bottom: 12px;
             background: #f9f9f9;
         }
 
-        input:focus {
-            border-color: #ff6600;
+        .form-control:focus {
+            border-color: var(--hover-color);
+            box-shadow: none;
         }
 
-        button {
-            background-color: #ff8c00;
-            color: #fff;
-            border: none;
-            padding: 12px 15px;
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
             font-size: 18px;
-            cursor: pointer;
+            padding: 12px;
             border-radius: 6px;
             width: 100%;
-            transition: background 0.3s ease;
             margin-bottom: 10px;
         }
 
-        button:hover {
-            background-color: #cc7000;
+        .btn-primary:hover {
+            background-color: var(--hover-color);
+            border-color: var(--hover-color);
         }
 
-        .form-section {
-            display: none;
+        .btn-danger {
+            background-color: var(--signout-color);
+            border-color: var(--signout-color);
+            font-size: 18px;
+            padding: 12px;
+            border-radius: 6px;
+            width: 100%;
+            margin-bottom: 10px;
         }
 
-        .form-section.active {
-            display: block;
-        }
-
-        #signOutButton {
-            background-color: #ff4444;
-        }
-
-        #signOutButton:hover {
-            background-color: #cc3333;
-        }
-
-        #verifyButton {
-            background-color: #ff8c00;
-            margin-top: 10px;
-        }
-
-        #verifyButton:hover {
-            background-color: #cc7000;
+        .btn-danger:hover {
+            background-color: var(--signout-hover);
+            border-color: var(--signout-hover);
         }
 
         .toggle-link {
-            color: #ff8c00;
+            color: var(--primary-color);
             cursor: pointer;
             text-decoration: underline;
             font-size: 14px;
+        }
+
+        .toggle-link:hover {
+            color: var(--hover-color);
         }
 
         .signed-in-message {
@@ -126,58 +125,81 @@
             flex-direction: column;
             align-items: center;
         }
+
+        .tab-pane {
+            padding: 10px 0;
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                padding: 15px;
+            }
+
+            .card {
+                margin: 15px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <img src="logog.png" alt="Logo" class="logo">
-        <h2 id="title">Sign Up / Login</h2>
-        <div class="tabs">
-            <div class="tab active" data-target="signup">Sign Up</div>
-            <div class="tab" data-target="login">Login</div>
-        </div>
+        <div class="card p-4">
+            <img src="logog.png" alt="Logo" class="logo mx-auto d-block">
+            <h2 id="title" class="text-center">Sign Up / Login</h2>
+            <ul class="nav nav-tabs justify-content-center" id="authTabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="signup-tab" data-bs-toggle="tab" href="#signup" role="tab" aria-controls="signup" aria-selected="true">Sign Up</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="login-tab" data-bs-toggle="tab" href="#login" role="tab" aria-controls="login" aria-selected="false">Login</a>
+                </li>
+            </ul>
 
-        <div id="signup" class="form-section active">
-            <form id="signupForm">
-                <input type="text" id="signupName" name="name" required placeholder="Enter your name">
-                <input type="email" id="signupEmail" name="email" required placeholder="Enter your email">
-                <input type="password" id="signupPassword" name="password" required placeholder="Enter your password">
-                <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Confirm password">
-                <button type="submit">Sign Up</button>
-            </form>
-            <p>Already have an account? <span class="toggle-link" data-target="login">Login</span></p>
-        </div>
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="signup" role="tabpanel" aria-labelledby="signup-tab">
+                    <form id="signupForm">
+                        <input type="text" id="signupName" name="name" class="form-control" required placeholder="Enter your name">
+                        <input type="email" id="signupEmail" name="email" class="form-control" required placeholder="Enter your email">
+                        <input type="password" id="signupPassword" name="password" class="form-control" required placeholder="Enter your password">
+                        <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required placeholder="Confirm password">
+                        <button type="submit" class="btn btn-primary">Sign Up</button>
+                    </form>
+                    <p class="text-center">Already have an account? <span class="toggle-link" data-bs-toggle="tab" href="#login">Login</span></p>
+                </div>
 
-        <div id="login" class="form-section">
-            <form id="loginForm">
-                <input type="email" id="loginEmail" name="email" required placeholder="Enter your email">
-                <input type="password" id="loginPassword" name="password" required placeholder="Enter your password">
-                <button type="submit">Login</button>
-            </form>
-            <p>Don't have an account? <span class="toggle-link" data-target="signup">Sign Up</span></p>
-        </div>
+                <div class="tab-pane fade" id="login" role="tabpanel" aria-labelledby="login-tab">
+                    <form id="loginForm">
+                        <input type="email" id="loginEmail" name="email" class="form-control" required placeholder="Enter your email">
+                        <input type="password" id="loginPassword" name="password" class="form-control" required placeholder="Enter your password">
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </form>
+                    <p class="text-center">Don't have an account? <span class="toggle-link" data-bs-toggle="tab" href="#signup">Sign Up</span></p>
+                </div>
 
-        <div id="signedIn" class="form-section">
-            <div class="signed-in-message">
-                <p id="welcomeMessage">Welcome! You are signed in.</p>
-                <button id="verifyButton" style="display: none;">Verify Email</button>
-                <button id="signOutButton">Sign Out</button>
+                <div class="tab-pane fade" id="signedIn" role="tabpanel" aria-labelledby="signedIn-tab">
+                    <div class="signed-in-message">
+                        <p id="welcomeMessage" class="mb-3">Welcome! You are signed in.</p>
+                        <button id="verifyButton" class="btn btn-primary" style="display: none;">Verify Email</button>
+                        <button id="signOutButton" class="btn btn-danger">Sign Out</button>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="verify" role="tabpanel" aria-labelledby="verify-tab">
+                    <form id="verifyForm">
+                        <input type="email" id="verifyEmail" name="email" class="form-control" required placeholder="Enter your email" disabled>
+                        <input type="text" id="code" name="code" class="form-control" placeholder="Enter verification code">
+                        <button type="submit" class="btn btn-primary">Verify</button>
+                    </form>
+                </div>
             </div>
-        </div>
-
-        <div id="verify" class="form-section">
-            <form id="verifyForm">
-                <input type="email" id="verifyEmail" name="email" required placeholder="Enter your email" disabled>
-                <input type="text" id="code" name="code" placeholder="Enter verification code">
-                <button type="submit">Verify</button>
-            </form>
         </div>
     </div>
 
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
     <script>
-        const tabs = document.querySelectorAll(".tab");
-        const formSections = document.querySelectorAll(".form-section");
-        const toggleLinks = document.querySelectorAll(".toggle-link");
+        const formSections = document.querySelectorAll(".tab-pane");
         const signupForm = document.getElementById("signupForm");
         const loginForm = document.getElementById("loginForm");
         const verifyForm = document.getElementById("verifyForm");
@@ -199,37 +221,6 @@
             isEmailVerified = storedVerificationStatus === "true";
             showSignedInState();
         }
-
-        // Tab switching
-        tabs.forEach(tab => {
-            tab.addEventListener("click", () => {
-                if (isSignedIn) return;
-                tabs.forEach(t => t.classList.remove("active"));
-                tab.classList.add("active");
-
-                formSections.forEach(section => section.classList.remove("active"));
-                const target = tab.getAttribute("data-target");
-                document.getElementById(target).classList.add("active");
-
-                title.textContent = target === "signup" ? "Sign Up" : "Login";
-            });
-        });
-
-        // Toggle link switching
-        toggleLinks.forEach(link => {
-            link.addEventListener("click", () => {
-                if (isSignedIn) return;
-                const target = link.getAttribute("data-target");
-
-                tabs.forEach(t => t.classList.remove("active"));
-                document.querySelector(`.tab[data-target="${target}"]`).classList.add("active");
-
-                formSections.forEach(section => section.classList.remove("active"));
-                document.getElementById(target).classList.add("active");
-
-                title.textContent = target === "signup" ? "Sign Up" : "Login";
-            });
-        });
 
         // Sign Up Form Submission
         signupForm.addEventListener("submit", async function(event) {
@@ -296,8 +287,8 @@
 
         // Verify Button Click
         verifyButton.addEventListener("click", async function() {
-            formSections.forEach(section => section.classList.remove("active"));
-            document.getElementById("verify").classList.add("active");
+            formSections.forEach(section => section.classList.remove("show", "active"));
+            document.getElementById("verify").classList.add("show", "active");
             title.textContent = "Verify Email";
             verifyEmailInput.value = currentEmail;
 
@@ -351,9 +342,9 @@
 
         function showSignedInState() {
             isSignedIn = true;
-            formSections.forEach(section => section.classList.remove("active"));
-            document.getElementById("signedIn").classList.add("active");
-            tabs.forEach(tab => tab.style.display = "none");
+            formSections.forEach(section => section.classList.remove("show", "active"));
+            document.getElementById("signedIn").classList.add("show", "active");
+            document.querySelector(".nav-tabs").style.display = "none";
 
             if (isEmailVerified) {
                 welcomeMessage.textContent = "Welcome! Your email is verified.";
@@ -370,13 +361,9 @@
             isEmailVerified = false;
             currentEmail = "";
             title.textContent = "Sign Up";
-            formSections.forEach(section => section.classList.remove("active"));
-            document.getElementById("signup").classList.add("active");
-            tabs.forEach(tab => {
-                tab.style.display = "block";
-                tab.classList.remove("active");
-            });
-            document.querySelector('.tab[data-target="signup"]').classList.add("active");
+            formSections.forEach(section => section.classList.remove("show", "active"));
+            document.getElementById("signup").classList.add("show", "active");
+            document.querySelector(".nav-tabs").style.display = "flex";
             signupForm.reset();
             loginForm.reset();
             verifyForm.reset();
