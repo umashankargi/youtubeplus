@@ -3,296 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartShorts</title>
+    <meta name="description" content="SmartShorts - Premium short video content platform featuring trending entertainment, comedy, and viral videos">
+    <meta name="keywords" content="short videos, entertainment, comedy, viral videos, trending content">
+    <title>SmartShorts | Premium Short Video Platform</title>
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <style>
-        :root {
-            --primary-color: #ff6200;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #1a1a1a;
-            color: white;
-        }
-
-        .navbar {
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .navbar-brand img {
-            height: 50px;
-        }
-
-        .nav-link {
-            color: #333 !important;
-            font-size: 17px;
-            transition: background-color 0.3s;
-        }
-
-        .nav-link:hover, .nav-link.active {
-            background-color: var(--primary-color);
-            color: white !important;
-        }
-
-        .profile-link-img {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-right: 5px;
-        }
-
-        .offcanvas {
-            width: 60px !important;
-            background-color: #2a2a2a;
-            padding-top: 80px;
-        }
-
-        .offcanvas-body a {
-            color: white;
-            padding: 20px 0;
-            text-decoration: none;
-            font-size: 24px;
-            text-align: center;
-            display: block;
-        }
-
-        .offcanvas-body a:hover {
-            background-color: var(--primary-color);
-        }
-
-        .carousel-item {
-            height: 50vh;
-            background-size: cover;
-            background-position: center;
-            position: relative;
-        }
-
-        .carousel-caption {
-            top: 20%;
-            left: 10%;
-            max-width: 400px;
-            color: white;
-            text-align: left;
-            padding: 0;
-        }
-
-        .carousel-caption h1 {
-            font-size: 24px;
-            font-weight: bold;
-            margin: 10px 0 10px 30px;
-        }
-
-        .carousel-caption .meta {
-            font-size: 14px;
-            color: #ccc;
-            margin: 10px 0 10px 30px;
-        }
-
-        .carousel-caption .description {
-            font-size: 16px;
-            color: #ddd;
-            margin: 10px 0 10px 30px;
-            line-height: 1.5;
-        }
-
-        .carousel-caption .tags {
-            font-size: 14px;
-            color: #bbb;
-            margin: 10px 0 10px 30px;
-        }
-
-        .carousel-caption .buttons {
-            display: flex;
-            gap: 10px;
-            margin-left: 30px;
-        }
-
-        .watch-now {
-            font-weight: bold;
-        }
-
-        .add-to-watchlist {
-            font-size: 20px;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .latest-releases {
-            padding: 20px 80px;
-            margin-left: 60px;
-        }
-
-        .releases-grid {
-            display: flex;
-            gap: 20px;
-            overflow-x: hidden;
-            padding-bottom: 10px;
-            scroll-behavior: smooth;
-        }
-
-        .release-item {
-            flex: 0 0 auto;
-            width: 200px;
-            cursor: pointer;
-            position: relative;
-            transition: transform 0.2s;
-        }
-
-        .release-item img {
-            width: 100%;
-            border-radius: 10px;
-            transition: opacity 0.2s;
-        }
-
-        .play-icon {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.2s;
-        }
-
-        .play-icon img {
-            width: 50px;
-            height: 50px;
-        }
-
-        .release-item:hover img {
-            opacity: 0.8;
-        }
-
-        .release-item:hover .play-icon {
-            opacity: 1;
-        }
-
-        .nav-buttons {
-            position: absolute;
-            top: 50%;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            padding: 0 20px;
-            transform: translateY(-50%);
-        }
-
-        .modal-content {
-            background-color: #2a2a2a;
-        }
-
-        .modal-body iframe {
-            width: 100%;
-            height: 90vh;
-            max-height: 700px;
-            border: none;
-        }
-
-        #searchModal .modal-body {
-            padding: 20px;
-        }
-
-        #search-input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-        }
-
-        #search-results-container {
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .search-result-item {
-            padding: 10px;
-            border-bottom: 1px solid #444;
-            cursor: pointer;
-        }
-
-        .search-result-item p {
-            margin: 0;
-            font-size: 16px;
-        }
-
-        #profileModal .modal-body {
-            text-align: center;
-        }
-
-        #profileModal input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: none;
-            border-radius: 5px;
-            background: #444;
-            color: white;
-        }
-
-        #profile-display img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 10px;
-            border: 2px solid var(--primary-color);
-        }
-
-        @media (max-width: 768px) {
-            .offcanvas {
-                width: 40px !important;
-            }
-
-            .carousel-caption {
-                position: static;
-                padding: 10px;
-                max-width: 100%;
-            }
-
-            .carousel-item {
-                height: auto;
-            }
-
-            .latest-releases {
-                padding: 20px;
-                margin-left: 40px;
-            }
-        }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    
+    <link rel="stylesheet" href="styles.css">
+    
 </head>
 <body>
-    <!-- Sidebar (Offcanvas) -->
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
-        <div class="offcanvas-header">
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
+    <!-- Loading Spinner -->
+    <div class="loading-spinner">
+        <div class="spinner"></div>
+        <div class="loading-text">Loading SmartShorts...</div>
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebar">
         <div class="offcanvas-body d-flex flex-column align-items-center">
-            <a href="https://www.youtube.com/@SmartShorts__s/shorts" aria-label="YouTube Shorts"><img src="shorts.png" alt="Smart Short" width="50" height="50" loading="lazy"></a>
-            <a href="https://www.instagram.com/smartshorts__" target="_blank" aria-label="Instagram">👤</a>
-            <a href="#" aria-label="Home">🏠</a>
-            <a href="#" id="search-toggle" aria-label="Search">🔍</a>
+            <a href="https://www.youtube.com/@SmartShorts__s/shorts" class="mt-3" aria-label="YouTube Shorts">
+                <img src="shorts.png" alt="SmartShorts" width="40" height="40" loading="lazy">
+            </a>
+            <a href="https://www.instagram.com/smartshorts__" target="_blank" aria-label="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" aria-label="Home">
+                <i class="fas fa-home"></i>
+            </a>
+            <a href="#" id="search-toggle" aria-label="Search">
+                <i class="fas fa-search"></i>
+            </a>
+            <a href="#" aria-label="Favorites" id="favorites-link">
+                <i class="fas fa-heart"></i>
+                <span class="notification-badge">3</span>
+            </a>
+            <a href="#" aria-label="History">
+                <i class="fas fa-history"></i>
+            </a>
+            <a href="#" aria-label="Settings">
+                <i class="fas fa-cog"></i>
+            </a>
         </div>
     </div>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg bg-light">
+    <!-- Main Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
         <div class="container-fluid">
-            <button class="btn btn-outline-secondary me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar" aria-label="Toggle sidebar">☰</button>
+            <button class="btn btn-outline-light me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar">
+                <i class="fas fa-bars"></i>
+            </button>
             <a class="navbar-brand" href="#">
-                <img src="logog.png" alt="Smart Short" loading="lazy">
+                <img src="logog.png" alt="SmartShorts" loading="lazy">
                 <span>SmartShorts</span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -301,7 +72,24 @@
                         <a class="nav-link active" href="#home">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" id="profile-link"></a>
+                        <a class="nav-link" href="#trending">Trending</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#categories">Categories</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html">Login Out</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="profile-link">
+                            <i class="fas fa-user-circle"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link position-relative" href="#" id="notifications-link">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-badge">5</span>
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -310,40 +98,93 @@
 
     <!-- Hero Carousel -->
     <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+        </div>
         <div class="carousel-inner">
             <div class="carousel-item active" style="background-image: url('thumb.jpg');">
                 <div class="carousel-caption">
-                    <h1>🔥 MrBeast vs IShowSpeed - The Ultimate Showdown! 💥</h1>
-                    <p class="meta">U/A 13+ • English</p>
+                    <h1>🔥 MrBeast vs IShowSpeed 💥</h1>
+                    <div class="meta">
+                        <span><i class="fas fa-user-tag"></i> U/A 13+</span>
+                        <span><i class="fas fa-language"></i> English</span>
+                        <span><i class="fas fa-eye"></i> 12M Views</span>
+                    </div>
                     <p class="description">Get ready for the BIGGEST battle on YouTube! 🚀 @MrBeast and @IShowSpeed go head-to-head in an epic showdown like never before. ⚡🔥</p>
-                    <p class="tags">Comedy | Reality | Culinary | Celebrities</p>
+                    <div class="tags">
+                        <span>Comedy</span>
+                        <span>Reality</span>
+                        <span>Culinary</span>
+                        <span>Celebrities</span>
+                    </div>
                     <div class="buttons">
-                        <a class="btn btn-primary watch-now" id="watch-now1">Watch Now</a>
-                        <a href="#" class="btn btn-secondary add-to-watchlist">+</a>
+                        <button class="btn btn-primary watch-now" id="watch-now1">
+                            <i class="fas fa-play me-2"></i>Watch Now
+                        </button>
+                        <button class="btn btn-outline-light add-to-watchlist">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <button class="btn btn-outline-light share-btn">
+                            <i class="fas fa-share-alt"></i>
+                        </button>
                     </div>
                 </div>
             </div>
             <div class="carousel-item" style="background-image: url('droom.png');">
                 <div class="carousel-caption">
-                    <h1>👽 Dr. Droom - Marvel’s Next Big Villain? | Official Trailer (2025)</h1>
-                    <p class="meta">U/A 13+ • English</p>
+                    <h1>👽 Dr. Droom | Official Trailer (2025)</h1>
+                    <div class="meta">
+                        <span><i class="fas fa-user-tag"></i> U/A 13+</span>
+                        <span><i class="fas fa-language"></i> English</span>
+                        <span><i class="fas fa-eye"></i> 8.5M Views</span>
+                    </div>
                     <p class="description">An unexpected alliance! MrDroom teams up with @MrBeast to take on @IShowSpeed in a wild, action-packed showdown. 🔥✨</p>
-                    <p class="tags">Action | Comedy | Mystery | Celebrities</p>
+                    <div class="tags">
+                        <span>Action</span>
+                        <span>Comedy</span>
+                        <span>Mystery</span>
+                        <span>Celebrities</span>
+                    </div>
                     <div class="buttons">
-                        <a class="btn btn-primary watch-now" id="watch-now2">Watch Now</a>
-                        <a href="#" class="btn btn-secondary add-to-watchlist">+</a>
+                        <button class="btn btn-primary watch-now" id="watch-now2">
+                            <i class="fas fa-play me-2"></i>Watch Now
+                        </button>
+                        <button class="btn btn-outline-light add-to-watchlist">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <button class="btn btn-outline-light share-btn">
+                            <i class="fas fa-share-alt"></i>
+                        </button>
                     </div>
                 </div>
             </div>
             <div class="carousel-item" style="background-image: url('lion.jpg');">
                 <div class="carousel-caption">
                     <h1>The Untold Story of The Lion King | Hidden Truths</h1>
-                    <p class="meta">U/A 13+ • English</p>
+                    <div class="meta">
+                        <span><i class="fas fa-user-tag"></i> U/A 13+</span>
+                        <span><i class="fas fa-language"></i> English</span>
+                        <span><i class="fas fa-eye"></i> 5.2M Views</span>
+                    </div>
                     <p class="description">🔥 The Untold Story of The Lion King – A Journey of Emotions, Power & Motivation! 🦁✨ Explore the hidden truths behind the classic tale.</p>
-                    <p class="tags">Action | Comedy | Mystery | Celebrities</p>
+                    <div class="tags">
+                        <span>Action</span>
+                        <span>Comedy</span>
+                        <span>Mystery</span>
+                        <span>Celebrities</span>
+                    </div>
                     <div class="buttons">
-                        <a class="btn btn-primary watch-now" id="watch-now3">Watch Now</a>
-                        <a href="#" class="btn btn-secondary add-to-watchlist">+</a>
+                        <button class="btn btn-primary watch-now" id="watch-now3">
+                            <i class="fas fa-play me-2"></i>Watch Now
+                        </button>
+                        <button class="btn btn-outline-light add-to-watchlist">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <button class="btn btn-outline-light share-btn">
+                            <i class="fas fa-share-alt"></i>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -358,284 +199,381 @@
         </button>
     </div>
 
-    <!-- Search Modal -->
-    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="searchModalLabel">Search Videos</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <input type="text" id="search-input" class="form-control" placeholder="Search videos...">
-                    <button id="search-button" class="btn btn-primary mt-2">Search</button>
-                    <div id="search-results-container" class="mt-3"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Latest Releases -->
-    <div class="latest-releases">
-        <h2>Latest Releases</h2>
-        <div class="releases-container position-relative">
+    <!-- Latest Releases Section -->
+    <section class="content-section" id="home">
+        <h2 class="section-title">Latest Releases</h2>
+        <div class="releases-container">
             <div class="releases-grid" id="releases-grid">
                 <div class="release-item" data-video="https://www.youtube.com/embed/qYvjYYElCqs">
                     <img src="thumb.jpg" alt="MrBeast vs IShowSpeed" loading="lazy">
-                    <div class="play-icon"><img src="play.png" alt="Play" loading="lazy"></div>
+                    <div class="play-icon"><i class="fas fa-play"></i></div>
                     <p>MrBeast vs IShowSpeed</p>
                 </div>
                 <div class="release-item" data-video="https://www.youtube.com/embed/okoI0CqiGXU">
                     <img src="droom.png" alt="Dr. Droom" loading="lazy">
-                    <div class="play-icon"><img src="play.png" alt="Play" loading="lazy"></div>
-                    <p>Dr. Droom - Marvel’s Next Big Villain?</p>
+                    <div class="play-icon"><i class="fas fa-play"></i></div>
+                    <p>Dr. Droom - Marvel's Next Big Villain?</p>
                 </div>
                 <div class="release-item" data-video="https://www.youtube.com/embed/DG4WZpZ4710">
                     <img src="lion.jpg" alt="The Untold Story of The Lion King" loading="lazy">
-                    <div class="play-icon"><img src="play.png" alt="Play" loading="lazy"></div>
+                    <div class="play-icon"><i class="fas fa-play"></i></div>
                     <p>The Untold Story of The Lion King</p>
                 </div>
                 <div class="release-item" data-video="https://www.youtube.com/embed/mTz-vR_lhh8">
                     <img src="deb.jpg" alt="Debba Debba Trailer" loading="lazy">
-                    <div class="play-icon"><img src="play.png" alt="Play" loading="lazy"></div>
+                    <div class="play-icon"><i class="fas fa-play"></i></div>
                     <p>Debba Debba Trailer</p>
                 </div>
                 <div class="release-item" data-video="https://www.youtube.com/embed/tu4giJZVhPc">
                     <img src="ped.jpg" alt="Peddi Glimpse" loading="lazy">
-                    <div class="play-icon"><img src="play.png" alt="Play" loading="lazy"></div>
+                    <div class="play-icon"><i class="fas fa-play"></i></div>
                     <p>Peddi Glimpse</p>
-                </div>
-            </div>
-            <div class="nav-buttons">
-                <button class="btn btn-primary nav-button" id="releases-prev-button" aria-label="Previous release">❮</button>
-                <button class="btn btn-primary nav-button" id="releases-next-button" aria-label="Next release">❯</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Most Epic -->
-    <div class="latest-releases">
-        <h2>Most Epic</h2>
-        <div class="releases-container position-relative">
-            <div class="releases-grid" id="releases-grid-most-epic">
-                <div class="release-item" data-video="https://www.youtube.com/embed/apjisnQtSnY">
-                    <img src="ipl.webp" alt="IPL Multiverse" loading="lazy">
-                    <div class="play-icon"><img src="play.png" alt="Play" loading="lazy"></div>
-                    <p>IPL Multiverse</p>
                 </div>
                 <div class="release-item" data-video="https://www.youtube.com/embed/4KcLZJOx3fc">
                     <img src="image.webp" alt="Suryakantham and Hero Krishna" loading="lazy">
-                    <div class="play-icon"><img src="play.png" alt="Play" loading="lazy"></div>
+                    <div class="play-icon"><i class="fas fa-play"></i></div>
                     <p>Suryakantham and Hero Krishna Comedy</p>
                 </div>
                 <div class="release-item" data-video="https://www.youtube.com/embed/qrzJEDp2Lgg">
                     <img src="OIP.jpeg" alt="ROBO AI" loading="lazy">
-                    <div class="play-icon"><img src="play.png" alt="Play" loading="lazy"></div>
+                    <div class="play-icon"><i class="fas fa-play"></i></div>
+                    <p>ROBO AI</p>
+                </div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn btn-primary" id="releases-prev-button">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="btn btn-primary" id="releases-next-button">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Most Epic Section -->
+    <section class="content-section" id="trending">
+        <h2 class="section-title">Most Epic</h2>
+        <div class="releases-container">
+            <div class="releases-grid" id="releases-grid-most-epic">
+                <div class="release-item" data-video="https://www.youtube.com/embed/apjisnQtSnY">
+                    <img src="ipl.webp" alt="IPL Multiverse" loading="lazy">
+                    <div class="play-icon"><i class="fas fa-play"></i></div>
+                    <p>IPL Multiverse</p>
+                </div>
+                <div class="release-item" data-video="https://www.youtube.com/embed/4KcLZJOx3fc">
+                    <img src="image.webp" alt="Suryakantham and Hero Krishna" loading="lazy">
+                    <div class="play-icon"><i class="fas fa-play"></i></div>
+                    <p>Suryakantham and Hero Krishna Comedy</p>
+                </div>
+                <div class="release-item" data-video="https://www.youtube.com/embed/qrzJEDp2Lgg">
+                    <img src="OIP.jpeg" alt="ROBO AI" loading="lazy">
+                    <div class="play-icon"><i class="fas fa-play"></i></div>
                     <p>ROBO AI</p>
                 </div>
                 <div class="release-item" data-video="https://www.youtube.com/embed/sUTPi1s2nrc">
                     <img src="The.png" alt="The Untold Story of The Lion King" loading="lazy">
-                    <div class="play-icon"><img src="play.png" alt="Play" loading="lazy"></div>
+                    <div class="play-icon"><i class="fas fa-play"></i></div>
                     <p>The Untold Story of The Lion King</p>
                 </div>
                 <div class="release-item" data-video="https://www.youtube.com/embed/dHmAPj1x4O8">
                     <img src="sip.jpg" alt="Baby Spiderman" loading="lazy">
-                    <div class="play-icon"><img src="play.png" alt="Play" loading="lazy"></div>
+                    <div class="play-icon"><i class="fas fa-play"></i></div>
                     <p>Baby Spiderman Climbing the Wall</p>
                 </div>
                 <div class="release-item" data-video="https://www.youtube.com/embed/cvivf_z-400">
                     <img src="cat.webp" alt="Angry Cat" loading="lazy">
-                    <div class="play-icon"><img src="play.png" alt="Play" loading="lazy"></div>
+                    <div class="play-icon"><i class="fas fa-play"></i></div>
                     <p>😾 Cute But Angry! Cat Shouting with an Adorable Meow! 🐱🔥</p>
+                </div>
+                <div class="release-item" data-video="https://www.youtube.com/embed/qYvjYYElCqs">
+                    <img src="thumb.jpg" alt="MrBeast vs IShowSpeed" loading="lazy">
+                    <div class="play-icon"><i class="fas fa-play"></i></div>
+                    <p>MrBeast vs IShowSpeed</p>
+                </div>
+                <div class="release-item" data-video="https://www.youtube.com/embed/okoI0CqiGXU">
+                    <img src="droom.png" alt="Dr. Droom" loading="lazy">
+                    <div class="play-icon"><i class="fas fa-play"></i></div>
+                    <p>Dr. Droom - Marvel's Next Big Villain?</p>
                 </div>
             </div>
             <div class="nav-buttons">
-                <button class="btn btn-primary nav-button" id="releases-prev-button-most-epic" aria-label="Previous most epic">❮</button>
-                <button class="btn btn-primary nav-button" id="releases-next-button-most-epic" aria-label="Next most epic">❯</button>
+                <button class="btn btn-primary" id="releases-prev-button-most-epic">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="btn btn-primary" id="releases-next-button-most-epic">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="content-section" id="categories">
+        <h2 class="section-title">Browse Categories</h2>
+        <div class="row g-4">
+            <div class="col-md-3 col-6">
+                <div class="category-card bg-dark rounded-3 p-4 text-center transition-all hover:transform hover:scale-105 cursor-pointer">
+                    <i class="fas fa-laugh-beam fa-3x mb-3 text-primary"></i>
+                    <h5>Comedy</h5>
+                    <p class="text-muted mb-0">1,245 Videos</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="category-card bg-dark rounded-3 p-4 text-center transition-all hover:transform hover:scale-105 cursor-pointer">
+                    <i class="fas fa-heartbeat fa-3x mb-3 text-danger"></i>
+                    <h5>Action</h5>
+                    <p class="text-muted mb-0">876 Videos</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="category-card bg-dark rounded-3 p-4 text-center transition-all hover:transform hover:scale-105 cursor-pointer">
+                    <i class="fas fa-ghost fa-3x mb-3 text-warning"></i>
+                    <h5>Horror</h5>
+                    <p class="text-muted mb-0">542 Videos</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="category-card bg-dark rounded-3 p-4 text-center transition-all hover:transform hover:scale-105 cursor-pointer">
+                    <i class="fas fa-music fa-3x mb-3 text-success"></i>
+                    <h5>Music</h5>
+                    <p class="text-muted mb-0">1,532 Videos</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="category-card bg-dark rounded-3 p-4 text-center transition-all hover:transform hover:scale-105 cursor-pointer">
+                    <i class="fas fa-graduation-cap fa-3x mb-3 text-info"></i>
+                    <h5>Education</h5>
+                    <p class="text-muted mb-0">654 Videos</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="category-card bg-dark rounded-3 p-4 text-center transition-all hover:transform hover:scale-105 cursor-pointer">
+                    <i class="fas fa-utensils fa-3x mb-3 text-orange"></i>
+                    <h5>Food</h5>
+                    <p class="text-muted mb-0">432 Videos</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="category-card bg-dark rounded-3 p-4 text-center transition-all hover:transform hover:scale-105 cursor-pointer">
+                    <i class="fas fa-gamepad fa-3x mb-3 text-purple"></i>
+                    <h5>Gaming</h5>
+                    <p class="text-muted mb-0">1,087 Videos</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="category-card bg-dark rounded-3 p-4 text-center transition-all hover:transform hover:scale-105 cursor-pointer">
+                    <i class="fas fa-futbol fa-3x mb-3 text-green"></i>
+                    <h5>Sports</h5>
+                    <p class="text-muted mb-0">765 Videos</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="#">About Us</a>
+                <a href="#">Contact</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">FAQ</a>
+                <a href="#">Careers</a>
+                <a href="#">Press</a>
+            </div>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+            <div class="app-download">
+                <img src="https://via.placeholder.com/120x40?text=App+Store" alt="Download on App Store">
+                <img src="https://via.placeholder.com/120x40?text=Google+Play" alt="Get it on Google Play">
+            </div>
+            <div class="copyright">
+                &copy; 2023 SmartShorts. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Action Button -->
+    <div class="fab-container">
+        <div class="fab-option" data-bs-toggle="tooltip" data-bs-placement="left" title="Upload Video">
+            <i class="fas fa-upload"></i>
+        </div>
+        <div class="fab-option" data-bs-toggle="tooltip" data-bs-placement="left" title="Create Short">
+            <i class="fas fa-plus-circle"></i>
+        </div>
+        <div class="fab-option" data-bs-toggle="tooltip" data-bs-placement="left" title="Go Live">
+            <i class="fas fa-video"></i>
+        </div>
+        <div class="fab-main" id="fab-main">
+            <i class="fas fa-plus"></i>
+        </div>
+    </div>
+
+    <!-- Dark Mode Toggle -->
+    <div class="dark-mode-toggle" id="darkModeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <!-- Search Modal -->
+    <div class="modal fade" id="searchModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Search Videos</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <input type="text" id="search-input" class="form-control" placeholder="Search videos...">
+                        <button id="search-button" class="btn btn-primary">
+                            <i class="fas fa-search me-2"></i>Search
+                        </button>
+                    </div>
+                    <div id="search-results-container">
+                        <div class="text-center py-4 text-muted">
+                            <i class="fas fa-search fa-3x mb-3"></i>
+                            <p>Search for your favorite videos</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Video Modal -->
-    <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
+    <!-- Video Player Modal -->
+    <div class="modal fade" id="videoModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
+                    <h5 class="modal-title" id="videoModalLabel">Now Playing</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <iframe src="" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+                <div class="modal-body p-0">
+                    <iframe src="" allowfullscreen loading="lazy"></iframe>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-outline-light me-2">
+                        <i class="fas fa-thumbs-up me-2"></i>Like
+                    </button>
+                    <button class="btn btn-outline-light me-2">
+                        <i class="fas fa-share-alt me-2"></i>Share
+                    </button>
+                    <button class="btn btn-outline-light">
+                        <i class="fas fa-plus me-2"></i>Save
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Profile Modal -->
-    <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+    <div class="modal fade" id="profileModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="profileModalLabel">Create Profile</h5>
+                    <h5 class="modal-title">Your Profile</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <label for="profile-image-input" class="profile-upload-label">
+                        <i class="fas fa-camera me-2"></i>Upload Photo
+                    </label>
                     <input type="file" id="profile-image-input" accept="image/*">
                     <input type="text" id="profile-name-input" class="form-control" placeholder="Enter your name">
-                    <button id="submit-profile" class="btn btn-primary mt-2">Submit</button>
-                    <div id="profile-display" class="mt-3"></div>
+                    <button id="submit-profile" class="btn btn-primary w-100 mt-3">
+                        <i class="fas fa-save me-2"></i>Save Profile
+                    </button>
+                    <div id="profile-display" class="mt-4">
+                        <img src="https://via.placeholder.com/120x120?text=Profile" alt="Profile" id="profile-image">
+                        <h4 id="profile-name">Guest User</h4>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Bootstrap JS and Popper.js -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const heroSections = [
-                { videoUrl: "https://www.youtube.com/embed/qYvjYYElCqs", title: "MrBeast vs IShowSpeed - The Ultimate Showdown!" },
-                { videoUrl: "https://www.youtube.com/embed/okoI0CqiGXU", title: "Dr. Droom - Marvel’s Next Big Villain? | Official Trailer (2025)" },
-                { videoUrl: "https://www.youtube.com/embed/DG4WZpZ4710", title: "The Untold Story of The Lion King | Hidden Truths" }
-            ];
+    <!-- Notifications Modal -->
+    <div class="modal fade" id="notificationsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Notifications <span class="badge bg-primary ms-2">5 New</span></h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <div class="list-group list-group-flush">
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex align-items-center">
+                                <img src="thumb.jpg" alt="Notification" width="40" height="40" class="rounded me-3">
+                                <div>
+                                    <h6 class="mb-1">New video from SmartShorts</h6>
+                                    <small class="text-muted">2 minutes ago</small>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex align-items-center">
+                                <img src="droom.png" alt="Notification" width="40" height="40" class="rounded me-3">
+                                <div>
+                                    <h6 class="mb-1">Dr. Droom trending now</h6>
+                                    <small class="text-muted">1 hour ago</small>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex align-items-center">
+                                <img src="lion.jpg" alt="Notification" width="40" height="40" class="rounded me-3">
+                                <div>
+                                    <h6 class="mb-1">The Lion King behind the scenes</h6>
+                                    <small class="text-muted">3 hours ago</small>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-primary text-white rounded-circle p-2 me-3">
+                                    <i class="fas fa-gift"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">Special offer for you!</h6>
+                                    <small class="text-muted">1 day ago</small>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-success text-white rounded-circle p-2 me-3">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">Your account has been verified</h6>
+                                    <small class="text-muted">2 days ago</small>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-outline-light w-100">
+                        <i class="fas fa-bell-slash me-2"></i>Mark all as read
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-            const releasesGrid = document.getElementById('releases-grid');
-            const releasesGridMostEpic = document.getElementById('releases-grid-most-epic');
-            const releasesPrevButton = document.getElementById('releases-prev-button');
-            const releasesNextButton = document.getElementById('releases-next-button');
-            const releasesPrevButtonMostEpic = document.getElementById('releases-prev-button-most-epic');
-            const releasesNextButtonMostEpic = document.getElementById('releases-next-button-most-epic');
-            const searchToggle = document.getElementById('search-toggle');
-            const searchButton = document.getElementById('search-button');
-            const searchInput = document.getElementById('search-input');
-            const searchResultsContainer = document.getElementById('search-results-container');
-            const profileLink = document.getElementById('profile-link');
-            const profileImageInput = document.getElementById('profile-image-input');
-            const profileNameInput = document.getElementById('profile-name-input');
-            const submitProfile = document.getElementById('submit-profile');
-            const profileDisplay = document.getElementById('profile-display');
-
-            function openVideoPlayer(url) {
-                document.querySelector('#videoModal iframe').src = url + "?autoplay=1";
-                new bootstrap.Modal(document.getElementById('videoModal')).show();
-            }
-
-            document.getElementById('videoModal').addEventListener('hidden.bs.modal', () => {
-                document.querySelector('#videoModal iframe').src = '';
-            });
-
-            heroSections.forEach((section, index) => {
-                document.getElementById(`watch-now${index + 1}`).addEventListener('click', (e) => {
-                    e.preventDefault();
-                    openVideoPlayer(section.videoUrl);
-                });
-            });
-
-            function setupSlider(grid, prevButton, nextButton) {
-                const releaseItems = grid.querySelectorAll('.release-item');
-                const slideWidth = 220;
-                const visibleSlides = 4;
-                let currentPosition = 0;
-                const totalSlides = releaseItems.length;
-                const maxPosition = Math.max(0, totalSlides - visibleSlides);
-
-                function updateSlides() {
-                    grid.style.transform = `translateX(-${currentPosition * slideWidth}px)`;
-                    prevButton.disabled = currentPosition === 0;
-                    nextButton.disabled = currentPosition >= maxPosition;
-                }
-
-                releaseItems.forEach(item => {
-                    item.addEventListener('click', () => {
-                        const videoUrl = item.getAttribute('data-video');
-                        openVideoPlayer(videoUrl);
-                    });
-                });
-
-                nextButton.addEventListener('click', () => {
-                    if (currentPosition < maxPosition) {
-                        currentPosition++;
-                        updateSlides();
-                    }
-                });
-
-                prevButton.addEventListener('click', () => {
-                    if (currentPosition > 0) {
-                        currentPosition--;
-                        updateSlides();
-                    }
-                });
-
-                updateSlides();
-            }
-
-            searchToggle.addEventListener('click', (e) => {
-                e.preventDefault();
-                new bootstrap.Modal(document.getElementById('searchModal')).show();
-            });
-
-            searchButton.addEventListener('click', () => {
-                const query = searchInput.value.trim().toLowerCase();
-                searchResultsContainer.innerHTML = '';
-                if (query) {
-                    const results = heroSections.filter(section => section.title.toLowerCase().includes(query));
-                    if (results.length > 0) {
-                        results.forEach(result => {
-                            const resultItem = document.createElement('div');
-                            resultItem.classList.add('search-result-item');
-                            resultItem.innerHTML = `<p>${result.title}</p>`;
-                            resultItem.addEventListener('click', () => openVideoPlayer(result.videoUrl));
-                            searchResultsContainer.appendChild(resultItem);
-                        });
-                    } else {
-                        searchResultsContainer.innerHTML = '<p class="p-2">No results found.</p>';
-                    }
-                }
-            });
-
-            profileLink.addEventListener('click', (e) => {
-                e.preventDefault();
-                new bootstrap.Modal(document.getElementById('profileModal')).show();
-            });
-
-            submitProfile.addEventListener('click', () => {
-                const file = profileImageInput.files[0];
-                const name = profileNameInput.value.trim();
-
-                if (file && name) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const imageSrc = e.target.result;
-                        profileDisplay.innerHTML = `
-                            <img src="${imageSrc}" alt="Profile Image">
-                            <p>${name}</p>
-                        `;
-                        profileLink.innerHTML = `<img src="${imageSrc}" alt="Profile Image" class="profile-link-img">`;
-                        localStorage.setItem('profileImage', imageSrc);
-                        localStorage.setItem('profileName', name);
-                    };
-                    reader.readAsDataURL(file);
-                } else {
-                    alert("Please upload an image and enter a name.");
-                }
-            });
-
-            // Load profile from localStorage
-            const savedImage = localStorage.getItem('profileImage');
-            const savedName = localStorage.getItem('profileName');
-            if (savedImage && savedName) {
-                profileLink.innerHTML = `<img src="${savedImage}" alt="Profile Image" class="profile-link-img">`;
-                profileDisplay.innerHTML = `
-                    <img src="${savedImage}" alt="Profile Image">
-                    <p>${savedName}</p>
-                `;
-            } else {
-                profileLink.innerHTML = '👤';
-            }
-
-            setupSlider(releasesGrid, releasesPrevButton, releasesNextButton);
-            setupSlider(releasesGridMostEpic, releasesPrevButtonMostEpic, releasesNextButtonMostEpic);
-        });
-    </script>
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+        
+    <script src="app.js"></script>
+    
 </body>
 </html>
