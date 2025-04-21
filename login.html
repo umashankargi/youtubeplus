@@ -6,6 +6,8 @@
     <title>Sign Up / Login</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Poppins Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
@@ -14,6 +16,9 @@
             --hover-color: #cc7000;
             --signout-color: #ff4444;
             --signout-hover: #cc3333;
+            --success-color: #28a745;
+            --error-color: #dc3545;
+            --warning-color: #ffc107;
         }
 
         body {
@@ -24,28 +29,47 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
+            background-image: radial-gradient(circle at 10% 20%, rgba(255, 140, 0, 0.1) 0%, rgba(30, 30, 30, 1) 90%);
         }
 
         .container {
             width: 100%;
             max-width: 400px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .card {
             border: none;
             border-radius: 12px;
-            box-shadow: 0px 4px 15px rgba(255, 165, 0, 0.3);
+            box-shadow: 0px 4px 25px rgba(255, 165, 0, 0.4);
             background-color: #fff;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 8px 30px rgba(255, 165, 0, 0.5);
         }
 
         .logo {
             width: 80px;
             margin-bottom: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: rotate(15deg);
         }
 
         h2 {
             color: var(--primary-color);
             margin-bottom: 15px;
+            font-weight: 600;
         }
 
         .nav-tabs {
@@ -58,13 +82,32 @@
             font-size: 18px;
             padding: 10px 20px;
             transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
         }
 
         .nav-link.active {
             color: var(--primary-color);
-            border-bottom: 2px solid var(--primary-color);
             background: none;
             font-weight: 600;
+        }
+
+        .nav-link.active::after {
+            width: 100%;
         }
 
         .form-control {
@@ -73,11 +116,26 @@
             font-size: 16px;
             margin-bottom: 12px;
             background: #f9f9f9;
+            transition: all 0.3s ease;
+            padding-left: 40px;
         }
 
         .form-control:focus {
             border-color: var(--hover-color);
-            box-shadow: none;
+            box-shadow: 0 0 0 0.25rem rgba(255, 140, 0, 0.25);
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 12px;
+            color: var(--primary-color);
+            z-index: 10;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 12px;
         }
 
         .btn-primary {
@@ -88,11 +146,15 @@
             border-radius: 6px;
             width: 100%;
             margin-bottom: 10px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            letter-spacing: 0.5px;
         }
 
         .btn-primary:hover {
             background-color: var(--hover-color);
             border-color: var(--hover-color);
+            transform: translateY(-2px);
         }
 
         .btn-danger {
@@ -103,32 +165,197 @@
             border-radius: 6px;
             width: 100%;
             margin-bottom: 10px;
+            transition: all 0.3s ease;
         }
 
         .btn-danger:hover {
             background-color: var(--signout-hover);
             border-color: var(--signout-hover);
+            transform: translateY(-2px);
         }
 
         .toggle-link {
             color: var(--primary-color);
             cursor: pointer;
-            text-decoration: underline;
+            text-decoration: none;
             font-size: 14px;
+            transition: all 0.3s ease;
+            font-weight: 500;
         }
 
         .toggle-link:hover {
             color: var(--hover-color);
+            text-decoration: underline;
         }
 
         .signed-in-message {
             display: flex;
             flex-direction: column;
             align-items: center;
+            text-align: center;
         }
 
         .tab-pane {
             padding: 10px 0;
+        }
+
+        .password-strength {
+            height: 5px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .strength-0 {
+            width: 20%;
+            background-color: var(--error-color);
+        }
+
+        .strength-1 {
+            width: 40%;
+            background-color: var(--error-color);
+        }
+
+        .strength-2 {
+            width: 60%;
+            background-color: var(--warning-color);
+        }
+
+        .strength-3 {
+            width: 80%;
+            background-color: var(--warning-color);
+        }
+
+        .strength-4 {
+            width: 100%;
+            background-color: var(--success-color);
+        }
+
+        .strength-text {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .alert {
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .alert-success {
+            background-color: rgba(40, 167, 69, 0.2);
+            border: 1px solid var(--success-color);
+            color: var(--success-color);
+        }
+
+        .alert-error {
+            background-color: rgba(220, 53, 69, 0.2);
+            border: 1px solid var(--error-color);
+            color: var(--error-color);
+        }
+
+        .alert-warning {
+            background-color: rgba(255, 193, 7, 0.2);
+            border: 1px solid var(--warning-color);
+            color: var(--warning-color);
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            cursor: pointer;
+            color: var(--primary-color);
+            z-index: 10;
+        }
+
+        .resend-code {
+            font-size: 13px;
+            text-align: right;
+            margin-top: -10px;
+            margin-bottom: 15px;
+        }
+
+        .resend-link {
+            color: var(--primary-color);
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .resend-link:hover {
+            text-decoration: underline;
+        }
+
+        .countdown {
+            color: #666;
+            font-size: 13px;
+        }
+
+        .social-login {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .social-divider {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+        }
+
+        .social-divider::before, .social-divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .social-divider span {
+            padding: 0 10px;
+            color: #777;
+            font-size: 14px;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .social-icon:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .google {
+            background-color: #DB4437;
+        }
+
+        .facebook {
+            background-color: #4267B2;
+        }
+
+        .github {
+            background-color: #333;
+        }
+
+        .forgot-password {
+            text-align: right;
+            margin-bottom: 15px;
         }
 
         @media (max-width: 576px) {
@@ -147,6 +374,11 @@
         <div class="card p-4">
             <img src="logog.png" alt="Logo" class="logo mx-auto d-block">
             <h2 id="title" class="text-center">Sign Up / Login</h2>
+            
+            <div id="successAlert" class="alert alert-success"></div>
+            <div id="errorAlert" class="alert alert-error"></div>
+            <div id="warningAlert" class="alert alert-warning"></div>
+
             <ul class="nav nav-tabs justify-content-center" id="authTabs" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="signup-tab" data-bs-toggle="tab" href="#signup" role="tab" aria-controls="signup" aria-selected="true">Sign Up</a>
@@ -159,38 +391,160 @@
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="signup" role="tabpanel" aria-labelledby="signup-tab">
                     <form id="signupForm">
-                        <input type="text" id="signupName" name="name" class="form-control" required placeholder="Enter your name">
-                        <input type="email" id="signupEmail" name="email" class="form-control" required placeholder="Enter your email">
-                        <input type="password" id="signupPassword" name="password" class="form-control" required placeholder="Enter your password">
-                        <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required placeholder="Confirm password">
-                        <button type="submit" class="btn btn-primary">Sign Up</button>
+                        <div class="input-group">
+                            <i class="fas fa-user input-icon"></i>
+                            <input type="text" id="signupName" name="name" class="form-control" required placeholder="Full Name">
+                        </div>
+                        
+                        <div class="input-group">
+                            <i class="fas fa-envelope input-icon"></i>
+                            <input type="email" id="signupEmail" name="email" class="form-control" required placeholder="Email Address">
+                        </div>
+                        
+                        <div class="input-group">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password" id="signupPassword" name="password" class="form-control" required placeholder="Password">
+                            <i class="far fa-eye password-toggle" id="toggleSignupPassword"></i>
+                        </div>
+                        <div id="passwordStrength" class="password-strength strength-0"></div>
+                        <div id="strengthText" class="strength-text">Password Strength: Very Weak</div>
+                        
+                        <div class="input-group">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required placeholder="Confirm Password">
+                            <i class="far fa-eye password-toggle" id="toggleConfirmPassword"></i>
+                        </div>
+                        
+                        <div class="form-check mb-3">
+                            <input type="checkbox" class="form-check-input" id="termsCheck" required>
+                            <label class="form-check-label" for="termsCheck">I agree to the <a href="#" class="toggle-link">Terms & Conditions</a></label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" id="signupButton">
+                            <span id="signupButtonText">Sign Up</span>
+                            <span id="signupSpinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
+                        </button>
                     </form>
-                    <p class="text-center">Already have an account? <a class="toggle-link" data-bs-toggle="tab" href="#login">Login</a></p>
+                    
+                    <div class="social-divider">
+                        <span>OR</span>
+                    </div>
+                    
+                    <div class="social-login">
+                        <p class="mb-3">Sign up with</p>
+                        <div class="social-icons">
+                            <div class="social-icon google" onclick="socialLogin('google')">
+                                <i class="fab fa-google"></i>
+                            </div>
+                            <div class="social-icon facebook" onclick="socialLogin('facebook')">
+                                <i class="fab fa-facebook-f"></i>
+                            </div>
+                            <div class="social-icon github" onclick="socialLogin('github')">
+                                <i class="fab fa-github"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p class="text-center mt-3">Already have an account? <a class="toggle-link" data-bs-toggle="tab" href="#login">Login</a></p>
                 </div>
 
                 <div class="tab-pane fade" id="login" role="tabpanel" aria-labelledby="login-tab">
                     <form id="loginForm">
-                        <input type="email" id="loginEmail" name="email" class="form-control" required placeholder="Enter your email">
-                        <input type="password" id="loginPassword" name="password" class="form-control" required placeholder="Enter your password">
-                        <button type="submit" class="btn btn-primary">Login</button>
+                        <div class="input-group">
+                            <i class="fas fa-envelope input-icon"></i>
+                            <input type="email" id="loginEmail" name="email" class="form-control" required placeholder="Email Address">
+                        </div>
+                        
+                        <div class="input-group">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password" id="loginPassword" name="password" class="form-control" required placeholder="Password">
+                            <i class="far fa-eye password-toggle" id="toggleLoginPassword"></i>
+                        </div>
+                        
+                        <div class="forgot-password">
+                            <a href="#" class="toggle-link" id="forgotPasswordLink">Forgot Password?</a>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" id="loginButton">
+                            <span id="loginButtonText">Login</span>
+                            <span id="loginSpinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
+                        </button>
                     </form>
-                    <p class="text-center">Don't have an account? <a class="toggle-link" data-bs-toggle="tab" href="#signup">Sign Up</a></p>
+                    
+                    <div class="social-divider">
+                        <span>OR</span>
+                    </div>
+                    
+                    <div class="social-login">
+                        <p class="mb-3">Login with</p>
+                        <div class="social-icons">
+                            <div class="social-icon google" onclick="socialLogin('google')">
+                                <i class="fab fa-google"></i>
+                            </div>
+                            <div class="social-icon facebook" onclick="socialLogin('facebook')">
+                                <i class="fab fa-facebook-f"></i>
+                            </div>
+                            <div class="social-icon github" onclick="socialLogin('github')">
+                                <i class="fab fa-github"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p class="text-center mt-3">Don't have an account? <a class="toggle-link" data-bs-toggle="tab" href="#signup">Sign Up</a></p>
                 </div>
 
                 <div class="tab-pane fade" id="signedIn" role="tabpanel">
                     <div class="signed-in-message">
-                        <p id="welcomeMessage" class="mb-3">Welcome! You are signed in.</p>
-                        <button id="verifyButton" class="btn btn-primary" style="display: none;">Verify Email</button>
-                        <button id="signOutButton" class="btn btn-danger">Sign Out</button>
+                        <i class="fas fa-user-circle mb-3" style="font-size: 60px; color: var(--primary-color);"></i>
+                        <h4 id="welcomeMessage" class="mb-3">Welcome back, <span id="userName">User</span>!</h4>
+                        <p id="verificationStatus" class="mb-3"><i class="fas fa-check-circle" style="color: var(--success-color);"></i> Email verified</p>
+                        <button id="verifyButton" class="btn btn-primary mb-3" style="display: none;">
+                            <i class="fas fa-envelope"></i> Verify Email
+                        </button>
+                        <button id="signOutButton" class="btn btn-danger">
+                            <i class="fas fa-sign-out-alt"></i> Sign Out
+                        </button>
                     </div>
                 </div>
 
                 <div class="tab-pane fade" id="verify" role="tabpanel">
                     <form id="verifyForm">
-                        <input type="email" id="verifyEmail" name="email" class="form-control" required placeholder="Enter your email" disabled>
-                        <input type="text" id="code" name="code" class="form-control" placeholder="Enter verification code">
-                        <button type="submit" class="btn btn-primary">Verify</button>
+                        <div class="input-group">
+                            <i class="fas fa-envelope input-icon"></i>
+                            <input type="email" id="verifyEmail" name="email" class="form-control" required placeholder="Enter your email" disabled>
+                        </div>
+                        
+                        <div class="input-group">
+                            <i class="fas fa-key input-icon"></i>
+                            <input type="text" id="code" name="code" class="form-control" placeholder="Enter verification code">
+                        </div>
+                        
+                        <div class="resend-code">
+                            <span class="countdown" id="countdown">Resend code in 30s</span>
+                            <a href="#" class="resend-link" id="resendLink" style="display: none;">Resend Code</a>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" id="verifySubmitButton">
+                            <span id="verifyButtonText">Verify</span>
+                            <span id="verifySpinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
+                        </button>
                     </form>
+                </div>
+
+                <div class="tab-pane fade" id="forgotPassword" role="tabpanel">
+                    <form id="forgotPasswordForm">
+                        <div class="input-group">
+                            <i class="fas fa-envelope input-icon"></i>
+                            <input type="email" id="forgotPasswordEmail" name="email" class="form-control" required placeholder="Enter your email">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" id="forgotPasswordButton">
+                            <span id="forgotPasswordButtonText">Send Reset Link</span>
+                            <span id="forgotPasswordSpinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
+                        </button>
+                    </form>
+                    
+                    <p class="text-center mt-3">Remembered your password? <a class="toggle-link" data-bs-toggle="tab" href="#login">Login</a></p>
                 </div>
             </div>
         </div>
@@ -199,41 +553,201 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script>
+        // DOM Elements
         const formSections = document.querySelectorAll(".tab-pane");
         const signupForm = document.getElementById("signupForm");
         const loginForm = document.getElementById("loginForm");
         const verifyForm = document.getElementById("verifyForm");
+        const forgotPasswordForm = document.getElementById("forgotPasswordForm");
         const signOutButton = document.getElementById("signOutButton");
         const verifyButton = document.getElementById("verifyButton");
         const title = document.getElementById("title");
         const welcomeMessage = document.getElementById("welcomeMessage");
+        const userName = document.getElementById("userName");
+        const verificationStatus = document.getElementById("verificationStatus");
         const verifyEmailInput = document.getElementById("verifyEmail");
-
+        const forgotPasswordLink = document.getElementById("forgotPasswordLink");
+        const resendLink = document.getElementById("resendLink");
+        const countdown = document.getElementById("countdown");
+        const passwordStrength = document.getElementById("passwordStrength");
+        const strengthText = document.getElementById("strengthText");
+        
+        // Alert elements
+        const successAlert = document.getElementById("successAlert");
+        const errorAlert = document.getElementById("errorAlert");
+        const warningAlert = document.getElementById("warningAlert");
+        
+        // Button elements
+        const signupButton = document.getElementById("signupButton");
+        const signupButtonText = document.getElementById("signupButtonText");
+        const signupSpinner = document.getElementById("signupSpinner");
+        const loginButton = document.getElementById("loginButton");
+        const loginButtonText = document.getElementById("loginButtonText");
+        const loginSpinner = document.getElementById("loginSpinner");
+        const verifySubmitButton = document.getElementById("verifySubmitButton");
+        const verifyButtonText = document.getElementById("verifyButtonText");
+        const verifySpinner = document.getElementById("verifySpinner");
+        const forgotPasswordButton = document.getElementById("forgotPasswordButton");
+        const forgotPasswordButtonText = document.getElementById("forgotPasswordButtonText");
+        const forgotPasswordSpinner = document.getElementById("forgotPasswordSpinner");
+        
+        // Password toggles
+        const toggleSignupPassword = document.getElementById("toggleSignupPassword");
+        const toggleConfirmPassword = document.getElementById("toggleConfirmPassword");
+        const toggleLoginPassword = document.getElementById("toggleLoginPassword");
+        
+        // State variables
         let isSignedIn = false;
         let isEmailVerified = false;
         let currentEmail = "";
+        let currentName = "";
+        let countdownTimer;
+        let countdownSeconds = 30;
 
         // Check for stored token on page load
-        const storedToken = localStorage.getItem("authToken");
-        const storedVerificationStatus = localStorage.getItem("isEmailVerified");
-        if (storedToken) {
-            isSignedIn = true;
-            isEmailVerified = storedVerificationStatus === "true";
-            showSignedInState();
+        document.addEventListener('DOMContentLoaded', function() {
+            const storedToken = localStorage.getItem("authToken");
+            const storedVerificationStatus = localStorage.getItem("isEmailVerified");
+            const storedName = localStorage.getItem("userName");
+            
+            if (storedToken) {
+                isSignedIn = true;
+                isEmailVerified = storedVerificationStatus === "true";
+                currentName = storedName || "User";
+                showSignedInState();
+            }
+            
+            // Initialize password strength checker
+            document.getElementById("signupPassword").addEventListener('input', checkPasswordStrength);
+            
+            // Initialize password toggles
+            initPasswordToggles();
+        });
+
+        // Initialize password toggle functionality
+        function initPasswordToggles() {
+            toggleSignupPassword.addEventListener('click', function() {
+                togglePasswordVisibility('signupPassword', toggleSignupPassword);
+            });
+            
+            toggleConfirmPassword.addEventListener('click', function() {
+                togglePasswordVisibility('confirmPassword', toggleConfirmPassword);
+            });
+            
+            toggleLoginPassword.addEventListener('click', function() {
+                togglePasswordVisibility('loginPassword', toggleLoginPassword);
+            });
+        }
+        
+        function togglePasswordVisibility(inputId, toggleIcon) {
+            const input = document.getElementById(inputId);
+            if (input.type === "password") {
+                input.type = "text";
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                input.type = "password";
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+
+        // Password strength checker
+        function checkPasswordStrength() {
+            const password = document.getElementById("signupPassword").value;
+            let strength = 0;
+            
+            // Check length
+            if (password.length >= 8) strength++;
+            if (password.length >= 12) strength++;
+            
+            // Check for mixed case
+            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+            
+            // Check for numbers
+            if (/\d/.test(password)) strength++;
+            
+            // Check for special chars
+            if (/[^a-zA-Z0-9]/.test(password)) strength++;
+            
+            // Cap at 4
+            strength = Math.min(strength, 4);
+            
+            // Update UI
+            passwordStrength.className = `password-strength strength-${strength}`;
+            
+            const strengthMessages = [
+                "Very Weak",
+                "Weak",
+                "Moderate",
+                "Strong",
+                "Very Strong"
+            ];
+            
+            strengthText.textContent = `Password Strength: ${strengthMessages[strength]}`;
+        }
+
+        // Show alert messages
+        function showAlert(type, message) {
+            // Hide all alerts first
+            successAlert.style.display = 'none';
+            errorAlert.style.display = 'none';
+            warningAlert.style.display = 'none';
+            
+            const alertElement = type === 'success' ? successAlert : 
+                                type === 'error' ? errorAlert : warningAlert;
+            
+            alertElement.textContent = message;
+            alertElement.style.display = 'block';
+            
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                alertElement.style.display = 'none';
+            }, 5000);
+        }
+
+        // Start countdown for resend code
+        function startCountdown() {
+            countdownSeconds = 30;
+            resendLink.style.display = 'none';
+            countdown.style.display = 'inline';
+            
+            countdownTimer = setInterval(() => {
+                countdownSeconds--;
+                countdown.textContent = `Resend code in ${countdownSeconds}s`;
+                
+                if (countdownSeconds <= 0) {
+                    clearInterval(countdownTimer);
+                    countdown.style.display = 'none';
+                    resendLink.style.display = 'inline';
+                }
+            }, 1000);
         }
 
         // Signup form submission
         signupForm.addEventListener("submit", async function(event) {
             event.preventDefault();
-            const name = document.getElementById("signupName").value;
-            const email = document.getElementById("signupEmail").value;
+            const name = document.getElementById("signupName").value.trim();
+            const email = document.getElementById("signupEmail").value.trim();
             const password = document.getElementById("signupPassword").value;
             const confirmPassword = document.getElementById("confirmPassword").value;
 
+            // Validate password match
             if (password !== confirmPassword) {
-                alert("Passwords do not match!");
+                showAlert('error', 'Passwords do not match!');
                 return;
             }
+
+            // Validate password strength
+            if (password.length < 8) {
+                showAlert('error', 'Password must be at least 8 characters long!');
+                return;
+            }
+
+            // Show loading state
+            signupButton.disabled = true;
+            signupButtonText.textContent = 'Signing Up...';
+            signupSpinner.style.display = 'inline-block';
 
             try {
                 const response = await fetch("http://localhost:3000/signup", {
@@ -243,26 +757,40 @@
                 });
 
                 const data = await response.json();
-                alert(data.message);
-
+                
                 if (response.ok) {
+                    showAlert('success', data.message || 'Signup successful!');
                     localStorage.setItem("authToken", data.token);
+                    localStorage.setItem("userName", name);
                     currentEmail = email;
+                    currentName = name;
                     isEmailVerified = data.isEmailVerified || false;
                     localStorage.setItem("isEmailVerified", isEmailVerified.toString());
                     showSignedInState();
+                } else {
+                    showAlert('error', data.message || 'Error signing up. Please try again.');
                 }
             } catch (error) {
                 console.error('Signup error:', error);
-                alert("Error signing up. Please try again.");
+                showAlert('error', 'Error signing up. Please try again.');
+            } finally {
+                // Reset button state
+                signupButton.disabled = false;
+                signupButtonText.textContent = 'Sign Up';
+                signupSpinner.style.display = 'none';
             }
         });
 
         // Login form submission
         loginForm.addEventListener("submit", async function(event) {
             event.preventDefault();
-            const email = document.getElementById("loginEmail").value;
+            const email = document.getElementById("loginEmail").value.trim();
             const password = document.getElementById("loginPassword").value;
+
+            // Show loading state
+            loginButton.disabled = true;
+            loginButtonText.textContent = 'Logging In...';
+            loginSpinner.style.display = 'inline-block';
 
             try {
                 const response = await fetch("http://localhost:3000/login", {
@@ -272,18 +800,27 @@
                 });
 
                 const data = await response.json();
-                alert(data.message);
-
+                
                 if (response.ok) {
+                    showAlert('success', data.message || 'Login successful!');
                     localStorage.setItem("authToken", data.token);
+                    localStorage.setItem("userName", data.name || "User");
                     currentEmail = email;
+                    currentName = data.name || "User";
                     isEmailVerified = data.isEmailVerified || false;
                     localStorage.setItem("isEmailVerified", isEmailVerified.toString());
                     showSignedInState();
+                } else {
+                    showAlert('error', data.message || 'Invalid email or password.');
                 }
             } catch (error) {
                 console.error('Login error:', error);
-                alert("Error logging in. Please try again.");
+                showAlert('error', 'Error logging in. Please try again.');
+            } finally {
+                // Reset button state
+                loginButton.disabled = false;
+                loginButtonText.textContent = 'Login';
+                loginSpinner.style.display = 'none';
             }
         });
 
@@ -293,6 +830,10 @@
             document.getElementById("verify").classList.add("show", "active");
             title.textContent = "Verify Email";
             verifyEmailInput.value = currentEmail;
+
+            // Show loading state
+            verifyButton.disabled = true;
+            verifyButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
 
             try {
                 const response = await fetch("http://localhost:3000/send-verification", {
@@ -305,17 +846,32 @@
                 });
 
                 const data = await response.json();
-                alert(data.message);
+                
+                if (response.ok) {
+                    showAlert('success', data.message || 'Verification code sent to your email!');
+                    startCountdown();
+                } else {
+                    showAlert('error', data.message || 'Error sending verification code. Please try again.');
+                }
             } catch (error) {
                 console.error('Verification send error:', error);
-                alert("Error sending verification code. Please try again.");
+                showAlert('error', 'Error sending verification code. Please try again.');
+            } finally {
+                // Reset button state
+                verifyButton.disabled = false;
+                verifyButton.innerHTML = '<i class="fas fa-envelope"></i> Verify Email';
             }
         });
 
         // Verify OTP submission
         verifyForm.addEventListener("submit", async function(event) {
             event.preventDefault();
-            const code = document.getElementById("code").value;
+            const code = document.getElementById("code").value.trim();
+
+            // Show loading state
+            verifySubmitButton.disabled = true;
+            verifyButtonText.textContent = 'Verifying...';
+            verifySpinner.style.display = 'inline-block';
 
             try {
                 const response = await fetch("http://localhost:3000/verify-code", {
@@ -328,23 +884,128 @@
                 });
 
                 const data = await response.json();
-                alert(data.message);
-
+                
                 if (response.ok) {
+                    showAlert('success', data.message || 'Email verified successfully!');
                     isEmailVerified = true;
                     localStorage.setItem("isEmailVerified", "true");
                     showSignedInState();
+                } else {
+                    showAlert('error', data.message || 'Invalid verification code. Please try again.');
                 }
             } catch (error) {
                 console.error('Verification error:', error);
-                alert("Error verifying code. Please try again.");
+                showAlert('error', 'Error verifying code. Please try again.');
+            } finally {
+                // Reset button state
+                verifySubmitButton.disabled = false;
+                verifyButtonText.textContent = 'Verify';
+                verifySpinner.style.display = 'none';
             }
         });
+
+        // Forgot password form submission
+        forgotPasswordForm.addEventListener("submit", async function(event) {
+            event.preventDefault();
+            const email = document.getElementById("forgotPasswordEmail").value.trim();
+
+            // Show loading state
+            forgotPasswordButton.disabled = true;
+            forgotPasswordButtonText.textContent = 'Sending...';
+            forgotPasswordSpinner.style.display = 'inline-block';
+
+            try {
+                const response = await fetch("http://localhost:3000/forgot-password", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email })
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showAlert('success', data.message || 'Password reset link sent to your email!');
+                } else {
+                    showAlert('error', data.message || 'Error sending reset link. Please try again.');
+                }
+            } catch (error) {
+                console.error('Forgot password error:', error);
+                showAlert('error', 'Error sending reset link. Please try again.');
+            } finally {
+                // Reset button state
+                forgotPasswordButton.disabled = false;
+                forgotPasswordButtonText.textContent = 'Send Reset Link';
+                forgotPasswordSpinner.style.display = 'none';
+            }
+        });
+
+        // Resend verification code
+        resendLink.addEventListener("click", async function(e) {
+            e.preventDefault();
+            
+            // Show loading state
+            resendLink.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Resending...';
+
+            try {
+                const response = await fetch("http://localhost:3000/send-verification", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+                    },
+                    body: JSON.stringify({})
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showAlert('success', data.message || 'Verification code resent to your email!');
+                    startCountdown();
+                } else {
+                    showAlert('error', data.message || 'Error resending verification code. Please try again.');
+                }
+            } catch (error) {
+                console.error('Resend verification error:', error);
+                showAlert('error', 'Error resending verification code. Please try again.');
+            } finally {
+                // Reset button state
+                resendLink.innerHTML = 'Resend Code';
+            }
+        });
+
+        // Forgot password link
+        forgotPasswordLink.addEventListener("click", function(e) {
+            e.preventDefault();
+            formSections.forEach(section => section.classList.remove("show", "active"));
+            document.getElementById("forgotPassword").classList.add("show", "active");
+            document.querySelector(".nav-tabs").style.display = "none";
+            title.textContent = "Forgot Password";
+        });
+
+        // Social login function
+        function socialLogin(provider) {
+            showAlert('warning', `Redirecting to ${provider} login...`);
+            // In a real app, you would redirect to the provider's auth endpoint
+            // window.location.href = `http://localhost:3000/auth/${provider}`;
+            
+            // Simulate successful social login after 1.5 seconds
+            setTimeout(() => {
+                localStorage.setItem("authToken", "social-token-123");
+                localStorage.setItem("userName", "Social User");
+                localStorage.setItem("isEmailVerified", "true");
+                currentEmail = "social@example.com";
+                currentName = "Social User";
+                isEmailVerified = true;
+                showSignedInState();
+                showAlert('success', `Logged in with ${provider} successfully!`);
+            }, 1500);
+        }
 
         // Sign out
         signOutButton.addEventListener("click", function() {
             localStorage.removeItem("authToken");
             localStorage.removeItem("isEmailVerified");
+            localStorage.removeItem("userName");
             resetToInitialState();
             alert("Successfully signed out!");
         });
